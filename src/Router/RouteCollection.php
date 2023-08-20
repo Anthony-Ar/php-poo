@@ -23,17 +23,26 @@ class RouteCollection
     {
         $type = is_array($callable) ? 'class' : 'method';
 
-        /** Note : ajouter la possibilité d'avoir des chemins alternatifs
-         * Enregistrer $routesAliases[nom de l'alias] = $path
-         * Ajouter un match par alias sur la méthode match()
-         */
+        if (is_array($path)) {
+            $this->routes[$name] = new Route($path[0], $callable, $type);
+            array_shift($path);
+            foreach ($path as $alias) {
+                $this->routesAliases[$alias] = $name;
+            }
 
-        $this->routes[$name] = new Route($path, $callable, $type);
+        } else {
+            $this->routes[$name] = new Route($path, $callable, $type);
+        }
     }
 
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    public function get(string $name): Route
+    {
+        return $this->routes[$name];
     }
 
     public function getRoutesAliases(): array

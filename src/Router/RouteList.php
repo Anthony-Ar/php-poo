@@ -10,12 +10,12 @@ class RouteList
 {
     public static array $routes =
         [
-            'transactions' => ['/', [TransactionsController::class, 'index']],
+            'transactions' => [['/', '/transactions'], [TransactionsController::class, 'index']],
             'clients' => ['/clients', [ClientsController::class, 'index']],
             'clients_unique' => ['/clients/{id}', [ClientsController::class, 'uniqueView']]
         ];
 
-    public function getMethodDependenciesAllowed(): array
+    private function getMethodDependenciesAllowed(): array
     {
         return [
             'request' => Request::createFromGlobals()

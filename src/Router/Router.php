@@ -3,7 +3,6 @@
 namespace App\Router;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
@@ -14,6 +13,23 @@ class Router
     {
         $this->request = $request;
         $this->routes = new RouteCollection();
+    }
+
+    public function match(): mixed
+    {
+        foreach ($this->routes->getRoutes() as $route) {
+            if ($this->pathMatch($route->getPath())) {
+                return $this->call($route);
+            }
+        }
+
+        foreach ($this->routes->getRoutesAliases() as $routePath => $routeName) {
+            if ($this->pathMatch($routePath)) {
+                return $this->call($this->routes->get($routeName));
+            }
+        }
+
+       return (new RedirectResponse('/'))->send();
     }
 
     private function call(Route $route): mixed
@@ -30,20 +46,16 @@ class Router
         return call_user_func_array($callable, $argsValue);
     }
 
-    public function match(): mixed
+    private function getRoutePattern(string $path): string
     {
-        foreach ($this->routes->getRoutes() as $route) {
-            if ($this->pathMatch($route)) {
-                return $this->call($route);
-            }
-        }
-
-        return (new RedirectResponse('/'))->send();
+        $pattern = str_replace("/", "\/", $path);
+        $pattern = sprintf("/^%s$/", $pattern);
+        return preg_replace_callback('/(\{\w+\})/', fn() => sprintf('(%s)?', '.+'), $pattern);
     }
 
-    private function pathMatch(Route $route): bool
+    private function pathMatch(string $path): bool
     {
-        return preg_match($route->getRoutePattern(), $this->getParsedPath());
+        return preg_match($this->getRoutePattern($path), $this->getParsedPath());
     }
 
     private function getParsedPath(): string
@@ -65,7 +77,7 @@ class Router
             preg_match_all("/{(\w+)\}/", $route->getPath(), $paramMatches);
 
             if (count($paramMatches[1]) > 0) {
-                preg_match($route->getRoutePattern(), $this->getParsedPath(), $matches);
+                preg_match($this->getRoutePattern($route->getPath()), $this->getParsedPath(), $matches);
                 array_shift($matches);
                 foreach ($paramMatches[1] as $i => $parameter) {
                     $values[$parameter] = $matches[$i];
