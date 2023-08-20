@@ -1,0 +1,27 @@
+{% macro input(type, name, label, icon, class_css = 'validate') %}
+	<div class="input-field">
+		<input id={{ name }} name={{ name }} type={{ type }} class={{ class_css }}>
+		<label for={{ name }} class="grey-text text-darken-3">
+			<i class="material-icons left">{{ icon }}</i>
+			{{ label }}
+		</label>
+	</div>
+{% endmacro %}
+
+{% macro input_switch(name, before = 'on', after = 'off') %}
+	<div class="switch">
+		<label class="grey-text text-darken-3">
+			<input id={{ name }} name={{ name }} type="checkbox">
+			{{ before }}
+			<span class="lever"></span>
+			{{ after }}
+		</label>
+	</div>
+{% endmacro %}
+
+{% macro submit(name, text, icon) %}
+	<button class="btn waves-effect waves-light" type="submit" name={{ name }}>
+		{{ text }}
+		<i class="material-icons right">{{ icon }}</i>
+	</button>
+{% endmacro %}

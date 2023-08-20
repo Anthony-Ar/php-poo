@@ -1,0 +1,43 @@
+{% extends 'row_base.html.twig' %}
+{% import 'macros/cards_stats.html.twig' as card %}
+
+{% block title %}Client #{{ profil.id }}{% endblock %}
+{% block section_title %}{{ profil.name }} ({{ profil.id }}){% endblock %}
+
+{% block left_content %}
+    {% if transactions|length > 0 %}
+        {# {% include 'pages/clients/elements/table.html.twig' %} #}
+    {% else %}
+        <p><i class="material-icons left">info</i> Il semblerait qu'aucune transaction ne soit enregistrée !</p>
+        <a href="/transactions/new/{{ profil.id }}" class="green waves-effect waves-light btn-large "><i class="material-icons left">add</i>Créer la première transaction</a>
+    {% endif %}
+{% endblock %}
+
+{% block right_content %}
+	{{ card.card_stats(transactions.total, 'storefront', 'Transactions') }}
+	{{ card.card_stats(transactions.price|euro_formate, 'euro_symbol', 'Dépensés') }}
+
+	<div class="card blue-grey lighten-5">
+		<div class="card-content">
+			<span class="card-title">Informations du compte</span>
+			<p>Pseudo : <b>{{ profil.name }}</b></p>
+			<p>Discord Id : <b>{{ profil.discord_uid }}</b></p>
+			<p>Dernière activité : <b>{% if activity != 'Jamais' %}Il y a {{ activity }} jours{% else %}Jamais{% endif %}</b></p>
+		</div>
+	</div>
+
+	<div class="divider"></div>
+	<h5>Actions</h5>
+
+	<div class="collection">
+		<a href="/clients/edit/{{ profil.id }}" class="collection-item">
+			<i class="material-icons right">manage_accounts</i>Modifier le profil
+		</a>
+		<a href="/clients/delete/{{ profil.id }}" class="collection-item red-text">
+			<i class="material-icons right">person_remove</i>Supprimer le profil
+		</a>
+		<a href="/transactions/deleteAll/{{ profil.id }}" class="collection-item red-text">
+			<i class="material-icons right">delete_forever</i>Supprimer toutes les transactions
+		</a>
+	</div>
+{% endblock %}

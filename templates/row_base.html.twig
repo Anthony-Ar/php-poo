@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+	<div class="row">
+		<div class="col s8">
+			{% block left_content %}{% endblock %}
+		</div>
+		<div class="col s3 push-s1">
+			{% block right_content %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}

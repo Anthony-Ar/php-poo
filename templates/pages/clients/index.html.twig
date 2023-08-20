@@ -1,0 +1,45 @@
+{% extends 'row_base.html.twig' %}
+{% import 'macros/cards_stats.html.twig' as card %}
+
+{% block title %}Clients{% endblock %}
+{% block section_title %}Liste des clients{% endblock %}
+
+{% block left_content %}
+    <div class="row">
+        {% for client in clients %}
+            <div class="col s4">
+                <div class="card blue-grey lighten-5">
+                    <a href="/clients/{{ client.id }}" class="black-text">
+                        <div class="card-content card-clients">
+                            <div>
+                                <span class="card-title">{{ client.name }}<span class="blue-grey-text text-lighten-1">#{{ client.discord_tag }}</span></span>
+                                <p>{{ client.discord_uid }}</p>
+                            </div>
+                            <div><i class="material-icons teal-text text-lighten-1">navigate_next</i></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block right_content %}
+	{{ card.card_stats(clients_total, 'account_circle', 'Clients') }}
+
+	<div class="divider"></div>
+	<h5>Actions</h5>
+
+	<div class="collection">
+		<a href="/clients/new/" class="collection-item">
+			<i class="material-icons right">person_add</i>Créer un nouveau profil
+        </a>
+	</div>
+
+	<div class="card blue-grey lighten-5">
+		<div class="card-content">
+			<span class="card-title">Chercher un profil</span>
+			{# {% include 'pages/clients/elements/form_search.html.twig' %} #}
+		</div>
+	</div>
+{% endblock %}

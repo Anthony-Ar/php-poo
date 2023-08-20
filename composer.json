@@ -1,0 +1,27 @@
+{
+    "name": "php-poo/autoload",
+    "autoload": {
+        "psr-4": {
+            "TBoileau\\DependencyInjection\\": "src/Container/",
+            "App\\Util\\": "src/Util/",
+            "App\\Helper\\": "src/Helper/",
+            "App\\Controller\\": "src/Controller/",
+            "App\\Repository\\": "src/Repository/",
+            "App\\Entity\\": "src/Entity/",
+            "App\\Router\\": "src/Router/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.7",
+        "psr/container": "^2.0",
+        "symfony/http-foundation": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.3"
+    }
+}

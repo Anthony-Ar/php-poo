@@ -1,0 +1,44 @@
+<table class="highlight">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Date</th>
+			<th>Client (Pseudo)</th>
+			<th>Montant</th>
+			<th>Prix</th>
+			<th class="right-align">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for transaction in transactions %}
+			<tr>
+				<td>{{ transaction.id }}</td>
+				<td>{{ transaction.date|date_formate }}</td>
+				<td>{{ transaction.name }}</td>
+				<td>{{ transaction.quantity }}</td>
+				<td>{{ transaction.price|euro_formate }}</td>
+				<td class="right-align">
+					<a class="dropdown-trigger teal-text text-lighten-1" href="#" data-target="dropdown{{ transaction.id }}">
+						<i class="material-icons">more_horiz</i>
+					</a>
+					<ul id="dropdown{{ transaction.id }}" class="dropdown-content">
+						<li>
+							<a href="/clients/{{ transaction.accountId }}" class="teal-text text-lighten-1">
+					            <i class="material-icons left">info</i>Informations Client
+                            </a>
+						</li>
+						<li>
+							<a href="/transactions/edit/{{ transaction.id }}" class="teal-text text-lighten-1">
+								<i class="material-icons left">edit</i>Modifier</a>
+						</li>
+						<li>
+							<a href="/transactions/delete/{{ transaction.id }}" class="teal-text text-lighten-1">
+								<i class="material-icons left">delete_forever</i>Supprimer</a>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+

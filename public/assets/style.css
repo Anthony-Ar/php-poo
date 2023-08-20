@@ -1,0 +1,46 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+@media only screen and (min-width: 993px) {
+    .container {
+        width: 85%;
+        max-width: initial;
+    }
+}
+
+.dropdown-content {
+    width: auto!important;
+}
+
+.datepicker::placeholder {
+    color: #888;
+}
+
+.card-margin-bottom {
+    margin-bottom: 2em;
+}
+
+.card-clients {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-previous-page {
+    margin: 2.8rem 0 -1rem 0;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0!important;
+}
+
+.padding-0 {
+    padding: 0!important;
+}

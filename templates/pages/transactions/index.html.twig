@@ -1,0 +1,35 @@
+{% extends 'row_base.html.twig' %}
+{% import 'macros/cards_stats.html.twig' as card %}
+
+{% block title %}Transactions{% endblock %}
+{% block section_title %}Transactions{% endblock %}
+
+{% block left_content %}
+    {% if transactions_total|length > 0 %}
+        {% include 'pages/transactions/elements/table.html.twig' %}
+    {% else %}
+        <p><i class="material-icons left">info</i> Il semblerait qu'aucune transaction ne soit enregistrée !</p>
+        <a href="/transactions/new/" class="green waves-effect waves-light btn-large "><i class="material-icons left">add</i>Créer la première transaction</a>
+    {% endif %}
+{% endblock %}
+
+{% block right_content %}
+	{{ card.card_stats(transactions_total, 'storefront', 'Transactions') }}
+	{{ card.card_stats(count_total|euro_formate, 'euro_symbol', 'Gagnés') }}
+
+	<div class="divider"></div>
+	<h5>Actions</h5>
+
+	<div class="collection">
+		<a href="#!" class="collection-item">
+			<i class="material-icons right">control_point</i>Ajouter une transaction
+        </a>
+	</div>
+
+	<div class="card blue-grey lighten-5">
+		<div class="card-content">
+			<span class="card-title">Chercher une transaction</span>
+			{% include 'pages/transactions/elements/form_search.html.twig' %}
+		</div>
+	</div>
+{% endblock %}

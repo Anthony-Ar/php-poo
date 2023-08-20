@@ -1,0 +1,14 @@
+{% import 'macros/forms.html.twig' as forms %}
+
+<form action="" method="post">
+	<div class="row valign-wrapper">
+		<div class="col s8">
+			{{ forms.input('text', 'client_name', 'Nom du client', 'account_circle') }}
+		</div>
+		<div class="col s4 padding-0">
+			{{ forms.input_switch('strict', '', 'Strict ?') }}
+		</div>
+	</div>
+	{{ forms.input('text', 'date', 'Date de la transaction', 'event', 'datepicker') }}
+    {{ forms.submit('search_form', 'Lancer la recherche', 'search') }}
+</form>
