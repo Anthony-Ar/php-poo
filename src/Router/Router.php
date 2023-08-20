@@ -61,6 +61,7 @@ class Router
         $args = $route->resolveArguments();
 
         if(count($args) > 0) {
+
             preg_match_all("/{(\w+)\}/", $route->getPath(), $paramMatches);
 
             if (count($paramMatches[1]) > 0) {
@@ -71,13 +72,7 @@ class Router
                 }
             }
 
-            if (in_array('request', $args)) {
-                /**
-                 * Note : ajouter la possibilité d'automatiser les injections et
-                 * définir une liste de dépendances autorisées qui ne font pas partie des paramètres d'une route
-                 **/
-                $values['request'] = Request::createFromGlobals();
-            }
+            $values = array_merge($values, (new RouteList())->resolveMethodDependencies($args));
 
             return array_map(
                 function (string $name) use ($values) {
