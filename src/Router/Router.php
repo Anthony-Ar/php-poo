@@ -3,29 +3,32 @@
 namespace App\Router;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App;
 
 class Router
 {
     private RequestContext $request;
-    private RouteCollection $routes;
+    private array $routes;
+    private array $routesAliases;
 
     public function __construct(RequestContext $request)
     {
         $this->request = $request;
-        $this->routes = new RouteCollection();
+        $this->routes = App::$container->getParameter('RoutesCollection');
+        $this->routesAliases = App::$container->getParameter('RoutesAliases');
     }
 
     public function match(): mixed
     {
-        foreach ($this->routes->getRoutes() as $route) {
+        foreach ($this->routes as $route) {
             if ($this->pathMatch($route->getPath())) {
                 return $this->call($route);
             }
         }
 
-        foreach ($this->routes->getRoutesAliases() as $routePath => $routeName) {
+        foreach ($this->routesAliases as $routePath => $routeName) {
             if ($this->pathMatch($routePath)) {
-                return $this->call($this->routes->get($routeName));
+                return $this->call($this->routes[$routeName]);
             }
         }
 
@@ -84,7 +87,7 @@ class Router
                 }
             }
 
-            $values = array_merge($values, (new RouteList())->resolveMethodDependencies($args));
+            $values = array_merge($values, $route->resolveMethodDependencies($args));
 
             return array_map(
                 function (string $name) use ($values) {

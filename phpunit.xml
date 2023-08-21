@@ -13,13 +13,13 @@
   </php>
   <testsuites>
     <testsuite name="unit">
-      <directory>tests</directory>
+      <directory>tests/</directory>
     </testsuite>
   </testsuites>
   <logging/>
   <source>
     <include>
-      <directory suffix=".php">src</directory>
+      <directory suffix=".php">src/</directory>
     </include>
   </source>
 </phpunit>

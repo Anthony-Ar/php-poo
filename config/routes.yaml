@@ -1,0 +1,13 @@
+Routes:
+  transactions:
+      path: '/'
+      alternative: '/transactions'
+      callable: ['App\Controller\TransactionsController', 'index']
+
+  clients:
+      path: '/clients'
+      callable: ['App\Controller\ClientsController', 'index']
+
+  clients_unique:
+      path: '/clients/{id}'
+      callable: ['App\Controller\ClientsController', 'uniqueView']
